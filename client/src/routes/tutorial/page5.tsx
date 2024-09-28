@@ -3,9 +3,56 @@ import { useState } from 'react'
 import Editor from '@monaco-editor/react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
+import { sendCodeToBackend } from '../../utils/sendCodeToBackend'
 
 export default function TutorialPage5() {
   const [code, setCode] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [output, setOutput] = useState('')
+  const [compilerError, setCompilerError] = useState({
+    show: false,
+    message: '',
+  })
+
+  async function compileCode(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault()
+    setLoading(true)
+
+    setError(false)
+    setCompilerError({ show: false, message: '' })
+
+    try {
+      const data = await sendCodeToBackend(code)
+
+      if (!data) {
+        setError(true)
+        return
+      }
+
+      if (!data.success && data.output) {
+        setCompilerError({
+          show: true,
+          message: data.output,
+        })
+        return
+      }
+
+      if (!data.output) {
+        setError(true)
+        return
+      }
+
+      setOutput(data.output)
+    } catch (error) {
+      console.error('Compilation error:', error)
+      setError(true)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 h-screen">
@@ -91,8 +138,31 @@ while x < 10 {
       <div className="relative col-span-1 md:col-span-2 row-span-1 border-t-4 border-blue-200 p-4 flex flex-col">
         <div className="mb-4">
           <h3 className="font-bold text-md md:text-lg">Output:</h3>
+          {loading && (
+            <h3 className="text-md mt-12 md:text-lg">
+              Compiling Code in Remote Server...
+            </h3>
+          )}
+          {error && (
+            <h3 className="text-md mt-12 md:text-lg text-red-500">
+              An error occurred. Please try again.
+            </h3>
+          )}
+          {compilerError.show && (
+            <h3 className="text-md mt-12 md:text-lg text-red-500">
+              Compilation Error: {compilerError.message}
+            </h3>
+          )}
+          {output && (
+            <pre className="text-md mt-12 bg-gray-100 p-2 rounded">
+              {output}
+            </pre>
+          )}
         </div>
-        <button className="absolute flex items-center justify-center top-5 right-5 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+        <button
+          onClick={e => compileCode(e)}
+          className="absolute flex items-center justify-center top-5 right-5 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+        >
           <Play />
           <span className="ml-2">Run</span>
         </button>
