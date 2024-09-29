@@ -1,10 +1,14 @@
-all: echo
+all: lexer
 
-echo: echo.o
-	gcc echo.o -o echo
+lexer: lex.yy.o
+	gcc lex.yy.o -o lexer
 
-echo.o: echo.c
-	gcc -c echo.c
+lex.yy.o: lex.yy.c
+	gcc -c lex.yy.c
+
+# Target to run flex
+lex.yy.c: lexer.l
+	flex lexer.l
 
 clean:
-	rm -f echo echo.o
+	rm -f lexer lex.yy.c lex.yy.o

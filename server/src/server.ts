@@ -8,7 +8,7 @@ app.use(express.json())
 
 app.use(
   cors({
-    origin: 'api-endpoint',
+    origin: 'https:api',
   })
 )
 
@@ -25,7 +25,8 @@ app.post('/compile', (req, res) => {
     return
   }
 
-  const command = '../compiler/echo';
+
+  const command = '../compiler/lexer';
   const child = exec(command, (err, stdout, stderr) => {
   if (err) {
     return res.status(500).json({
