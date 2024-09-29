@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ignore C executable files
+*.out
+*.o
+a.out        # Common default name for C executables
+*           # Ignore all executables without extension

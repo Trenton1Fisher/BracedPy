@@ -5,7 +5,7 @@ type codeResponse = {
 
 export async function sendCodeToBackend(code: string) {
   try {
-    const response = await fetch('http://localhost:3000/compile', {
+    const response = await fetch('api-endpoint', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

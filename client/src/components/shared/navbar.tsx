@@ -28,7 +28,7 @@ export default function Navbar() {
             <div className="ml-10 flex items-baseline space-x-4">
               <Link
                 to="/"
-                className=" dark:text-white hover:bg-[#eef1fe] hover:text-[#4A6CF7] px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out flex items-center"
+                className=" hover:bg-[#eef1fe] hover:text-[#4A6CF7] px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out flex items-center"
               >
                 <Home className="w-4 h-4 mr-2" />
                 Home
