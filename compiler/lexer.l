@@ -6,16 +6,16 @@
 
 %%
 
-[0-9]+\.[0-9]+   { printf("FLOAT: %s\n", yytext); } // Match floating-point numbers
-[0-9]+           { printf("INTEGER: %s\n", yytext); } // Match integers
+[0-9]+\.[0-9]+   { printf("FLOAT: %s\n", yytext); }
+[0-9]+           { printf("INTEGER: %s\n", yytext); } 
 " "|\t|\n         // Ignore whitespace
 "#".*            // Ignore comments
 "if"             { printf("IF: %s\n", yytext); }
 "elif"           { printf("ELIF: %s\n", yytext); }
 "else"           { printf("ELSE: %s\n", yytext); }
 "return"         { printf("RETURN: %s\n", yytext); }
-"true"           { printf("BOOLEAN: %s\n", yytext); } // Match boolean true
-"false"          { printf("BOOLEAN: %s\n", yytext); } // Match boolean false
+"true"           { printf("BOOLEAN: %s\n", yytext); } 
+"false"          { printf("BOOLEAN: %s\n", yytext); } 
 "+"              { printf("PLUS: %s\n", yytext); }
 "-"              { printf("MINUS: %s\n", yytext); }
 "*"              { printf("TIMES: %s\n", yytext); }
