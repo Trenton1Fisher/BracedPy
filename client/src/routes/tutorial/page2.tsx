@@ -14,42 +14,47 @@ export default function TutorialPage2() {
     message: '',
   })
 
-  async function compileCode(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    e.preventDefault()
-    setLoading(true)
-
-    setError(false)
-    setCompilerError({ show: false, message: '' })
-
+  async function compileCode(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    setLoading(true);
+  
+    setError(false);
+    setCompilerError({ show: false, message: '' });
+  
     try {
-      const data = await sendCodeToBackend(code)
-
-      if (!data) {
-        setError(true)
-        return
-      }
-
-      if (!data.success && data.output) {
+      const data = await sendCodeToBackend(code);
+      if(!data){
         setCompilerError({
           show: true,
-          message: data.output,
+          message: 'No output found, Please Try again and double check syntax',
         })
         return
       }
+  
+      if (!data.success) {
+        if (data.error) {
+          setCompilerError({
+            show: true,
+            message: data.error,
+          });
+          return;
+        }
 
-      if (!data.output) {
-        setError(true)
-        return
+        return;
       }
-
-      setOutput(data.output)
+      if (!data.output) {
+        setCompilerError({
+          show: true,
+          message: 'No Output Found Please try again, Please double check syntax errors',
+        });
+        return;
+      }
+  
+      setOutput(data.output); 
     } catch (error) {
-      console.error('Compilation error:', error)
-      setError(true)
+      console.error('Compilation error:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -109,16 +114,16 @@ export default function TutorialPage2() {
         </p>
         <pre className="bg-gray-100 p-2 rounded text-sm md:text-base">
           {`# Addition
-  a = 10 + 5;      # int addition
+a = 10 + 5;     
   
-  # Subtraction
-  b = 20.5 - 3.2;  # float subtraction
+# Subtraction
+b = 20.5 - 3.2;  
   
-  # Multiplication
-  c = 4 * 2.5;     # int and float multiplication
+# Multiplication
+c = 4 * 2.5;    
   
-  # Division
-  d = 9 / 2;       # float division (result is a float)`}
+# Division
+d = 9 / 2;      `}
         </pre>
 
         <h3 className="font-bold mt-4 text-md md:text-lg">Additional Tips:</h3>
@@ -145,7 +150,8 @@ export default function TutorialPage2() {
           advanced expressions! For example, you can experiment with:
         </p>
         <pre className="bg-gray-100 p-2 rounded text-sm md:text-base">
-          {`l = (10 + 8 * z) - 9 * 7;`}
+          {`z = 4;
+l = (10 + 8 * z) - 9 * 7;`}
         </pre>
         <p className="text-sm md:text-base">
           This expression combines addition, multiplication, and subtraction,

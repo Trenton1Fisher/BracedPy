@@ -35,7 +35,7 @@ export default function MobileNav({
           Tutorials
         </Link>
         <a
-          href="https://github.com/yourlanguage"
+          href="https://github.com/Trenton1Fisher/BracedPy"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-[#4A6CF7] text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[#3a5bd9] transition duration-150 ease-in-out flex items-center"

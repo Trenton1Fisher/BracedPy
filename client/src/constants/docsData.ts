@@ -8,7 +8,7 @@ export const docsData = [
     codeBlockText: `
       x = 5;       # int
       y = 3.14;    # float
-      isActive = true; # bool
+      isActive = True; # bool
       `,
   },
   {
@@ -31,8 +31,9 @@ export const docsData = [
     description:
       'The `if` statement is used to execute a block of code only if a specified condition evaluates to true. This condition can be any valid expression that results in a boolean outcome, such as comparing two variables using conditional operators. If the condition is true, the code inside the block is executed. The `if` statement is an essential part of controlling the flow of your program based on certain conditions.',
     codeBlockText: `
-      if (x > 10) {
+      if x > 10: {
         result = 100;
+        break;   # Exit the if block early
       }
       `,
   },
@@ -43,10 +44,12 @@ export const docsData = [
     description:
       'The `elif` statement is used for additional condition checks after an initial `if` statement. If the first `if` condition evaluates to false, the `elif` condition will be checked. You can chain multiple `elif` conditions after an `if` statement to handle different possible values or scenarios. As with the `if` statement, the `elif` condition must be followed by a block of code and end with a semicolon `;`.',
     codeBlockText: `
-      if (x > 10) {
+      if x > 10: {
         result = 100;
-      } elif (x == 10) {
+        break;   # Exit the block early
+      } elif x == 10: {
         result = 50;
+        break;   # Exit the elif block early
       }
       `,
   },
@@ -55,14 +58,17 @@ export const docsData = [
     jsxId: 'else-statements',
     title: 'Else Statements',
     description:
-      'The `else` statement is used as the final fallback option when none of the preceding `if` or `elif` conditions evaluate to true. This ensures that even if all other conditions fail, some code will still be executed. An `else` statement does not require a condition, and it is placed at the end of the conditional chain.',
+      'The `else` statement is used as the final fallback option when none of the preceding `if` or `elif` conditions evaluate to true. This ensures that even if all other conditions fail, some code will still be executed. An `else` statement does not require a condition, and it is placed at the end of the conditional chain. Important Note is if and elif statements require : while the else statement does not, this is important and will cause compilation errors if not followed.',
     codeBlockText: `
-      if (x > 10) {
+      if x > 10: {
         result = 100;
-      } elif (x == 10) {
+        break;   # Exit the if block early
+      } elif x == 10: {
         result = 50;
+        break;   # Exit the elif block early
       } else {
         result = 0;
+        break;   # Exit the else block early
       }
       `,
   },
@@ -89,8 +95,11 @@ export const docsData = [
       'A `while` loop allows you to repeatedly execute a block of code as long as a specified condition remains true. The condition is evaluated before each iteration, and the loop will continue to execute until the condition becomes false. Be mindful of the condition to avoid infinite loops.',
     codeBlockText: `
       x = 0;
-      while (x < 10) {
-        x += 1;
+      while x < 10: {
+        x = x + 1;
+        if x == 5: {
+          break;  # Exit the loop when x is 5
+        }
       }
       `,
   },

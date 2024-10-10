@@ -15,42 +15,47 @@ export default function TutorialPage3() {
     message: '',
   })
 
-  async function compileCode(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    e.preventDefault()
-    setLoading(true)
-
-    setError(false)
-    setCompilerError({ show: false, message: '' })
-
+  async function compileCode(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    setLoading(true);
+  
+    setError(false);
+    setCompilerError({ show: false, message: '' });
+  
     try {
-      const data = await sendCodeToBackend(code)
-
-      if (!data) {
-        setError(true)
-        return
-      }
-
-      if (!data.success && data.output) {
+      const data = await sendCodeToBackend(code);
+      if(!data){
         setCompilerError({
           show: true,
-          message: data.output,
+          message: 'No output found, Please Try again and double check syntax',
         })
         return
       }
+  
+      if (!data.success) {
+        if (data.error) {
+          setCompilerError({
+            show: true,
+            message: data.error,
+          });
+          return;
+        }
 
-      if (!data.output) {
-        setError(true)
-        return
+        return;
       }
-
-      setOutput(data.output)
+      if (!data.output) {
+        setCompilerError({
+          show: true,
+          message: 'No Output Found Please try again, Please double check syntax errors',
+        });
+        return;
+      }
+  
+      setOutput(data.output); 
     } catch (error) {
-      console.error('Compilation error:', error)
-      setError(true)
+      console.error('Compilation error:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -74,9 +79,10 @@ export default function TutorialPage3() {
         </p>
         <pre className="bg-gray-100 p-2 rounded text-sm md:text-base">
           {`x = 12;
-if x > 10 {
+if x > 10: {
     result = 100;
-}`}
+}
+`}
         </pre>
 
         <h3 className="font-bold mt-4 text-md md:text-lg">Your Turn!</h3>

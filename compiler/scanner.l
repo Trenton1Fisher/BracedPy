@@ -134,6 +134,7 @@ void addStatement(const char* stmt) {
 "\n"     { 
     addStatement("\n");  // Add newline to allStatements
 }
+"\r" {/*ignore */}
 "{"      { 
     addStatement(" {");  // Add opening brace to allStatements
 }
@@ -142,9 +143,10 @@ void addStatement(const char* stmt) {
 }
 
 . {
-    fprintf(stderr, "Unrecognized token on line %d: %s\n", yylineno, yytext);
-    return 1;
+    fprintf(stderr, "Unrecognized character '%s' at line %d, character '%c' (ASCII %d)\n", yytext, yylineno, yytext[0], (int)yytext[0]);
 }
+
+
 
 %%
 

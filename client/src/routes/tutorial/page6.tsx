@@ -15,42 +15,47 @@ export default function TutorialPage6() {
     message: '',
   })
 
-  async function compileCode(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    e.preventDefault()
-    setLoading(true)
-
-    setError(false)
-    setCompilerError({ show: false, message: '' })
-
+  async function compileCode(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    setLoading(true);
+  
+    setError(false);
+    setCompilerError({ show: false, message: '' });
+  
     try {
-      const data = await sendCodeToBackend(code)
-
+      const data = await sendCodeToBackend(code);
       if (!data) {
-        setError(true)
-        return
-      }
-
-      if (!data.success && data.output) {
         setCompilerError({
           show: true,
-          message: data.output,
-        })
-        return
+          message: 'No output found, Please Try again and double check syntax',
+        });
+        return;
       }
-
+  
+      if (!data.success) {
+        if (data.error) {
+          setCompilerError({
+            show: true,
+            message: data.error,
+          });
+          return;
+        }
+        return;
+      }
+  
       if (!data.output) {
-        setError(true)
-        return
+        setCompilerError({
+          show: true,
+          message: 'No Output Found Please try again, Please double check syntax errors',
+        });
+        return;
       }
-
-      setOutput(data.output)
+  
+      setOutput(data.output); 
     } catch (error) {
-      console.error('Compilation error:', error)
-      setError(true)
+      console.error('Compilation error:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -74,12 +79,12 @@ export default function TutorialPage6() {
           {`x = 0;
 result = 0;
 
-while (x < 5) {
+while x < 5: {
     l = x * 2;
 
-    if (x < 2) {
+    if x < 2: {
         result = x * 10 + (l + 4);
-    } elif (x < 4) {
+    } elif x < 4: {
         result = x * 5 - (l - 3);
     } else { 
         result = l * 2; 
@@ -112,7 +117,7 @@ while (x < 5) {
           </li>
           <li>
             Remember all variable declared will automatically be printed so you
-            can see the output immediatley
+            can see the output immediately
           </li>
         </ul>
 
@@ -175,6 +180,30 @@ while (x < 5) {
           <span className="ml-2">Run</span>
         </button>
       </div>
+
+      <div className="relative col-span-1 md:col-span-2 row-span-1 border-t-4 border-blue-200 p-4">
+        <h3 className="font-bold mt-4 text-md md:text-lg">
+          Or try this code which calculates the nth Fibonacci number:
+        </h3>
+        <pre className="bg-gray-100 p-2 rounded text-sm md:text-base">
+          {`# This program computes and returns the n'th Fibonacci number.
+n = 6;
+f0 = 0;
+f1 = 1;
+i = 0;
+while True:  {
+    fi = f0 + f1;
+    f0 = f1;
+    f1 = fi;
+    i = i + 1;
+    if i >= n:  {
+        break;
+    }
+}
+f = f0;`}
+        </pre>
+      </div>
     </div>
   )
 }
+

@@ -1,11 +1,13 @@
+
 type codeResponse = {
   success: boolean
   output?: string
+  error?: string
 }
 
 export async function sendCodeToBackend(code: string) {
   try {
-    const response = await fetch('api-endpoint', {
+    const response = await fetch('https://api.braced.trentonfisher.xyz/compile', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -13,7 +15,9 @@ export async function sendCodeToBackend(code: string) {
       body: JSON.stringify({ code }),
     })
     if (!response.ok) {
-      throw new Error('Failed to send code')
+      const errorData: codeResponse = await response.json();
+      console.error('Error from backend:', errorData.error || 'Unknown error');
+      return errorData
     }
     const data: codeResponse = await response.json()
     return data

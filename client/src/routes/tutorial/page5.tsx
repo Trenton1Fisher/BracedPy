@@ -15,45 +15,50 @@ export default function TutorialPage5() {
     message: '',
   })
 
-  async function compileCode(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    e.preventDefault()
-    setLoading(true)
-
-    setError(false)
-    setCompilerError({ show: false, message: '' })
-
+  async function compileCode(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    setLoading(true);
+  
+    setError(false);
+    setCompilerError({ show: false, message: '' });
+  
     try {
-      const data = await sendCodeToBackend(code)
-
-      if (!data) {
-        setError(true)
-        return
-      }
-
-      if (!data.success && data.output) {
+      const data = await sendCodeToBackend(code);
+      if(!data){
         setCompilerError({
           show: true,
-          message: data.output,
+          message: 'No output found, Please Try again and double check syntax',
         })
         return
       }
+  
+      if (!data.success) {
+        if (data.error) {
+          setCompilerError({
+            show: true,
+            message: data.error,
+          });
+          return;
+        }
 
-      if (!data.output) {
-        setError(true)
-        return
+        return;
       }
-
-      setOutput(data.output)
+      if (!data.output) {
+        setCompilerError({
+          show: true,
+          message: 'No Output Found Please try again, Please double check syntax errors',
+        });
+        return;
+      }
+  
+      setOutput(data.output); 
     } catch (error) {
-      console.error('Compilation error:', error)
-      setError(true)
+      console.error('Compilation error:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
-
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 h-screen">
       <div className="relative col-span-1 md:col-span-2 row-span-2 border-r-4 border-blue-200 p-4 py-8 overflow-auto">
@@ -71,9 +76,9 @@ export default function TutorialPage5() {
           Below is an example of how a <code>while</code> loop works:
         </p>
         <pre className="bg-gray-100 p-2 rounded text-sm md:text-base">
-          {`x = 0;
+          {`x = 1;
 y = 2;
-while x < 10 {
+while x < 10: {
     y = y + 1;
     x = x * y;
 }

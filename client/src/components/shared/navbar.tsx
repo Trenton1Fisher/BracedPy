@@ -48,7 +48,7 @@ export default function Navbar() {
                 Tutorial
               </Link>
               <a
-                href="https://github.com/yourlanguage"
+                href="https://github.com/Trenton1Fisher/BracedPy"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#4A6CF7] text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-[#3a5bd9] transition duration-150 ease-in-out flex items-center"
