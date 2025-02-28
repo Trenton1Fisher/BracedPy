@@ -24,12 +24,12 @@ export default function TutorialPage6() {
   
     try {
       const data = await sendCodeToBackend(code);
-      if (!data) {
+      if(!data){
         setCompilerError({
           show: true,
           message: 'No output found, Please Try again and double check syntax',
-        });
-        return;
+        })
+        return
       }
   
       if (!data.success) {
@@ -40,9 +40,9 @@ export default function TutorialPage6() {
           });
           return;
         }
+
         return;
       }
-  
       if (!data.output) {
         setCompilerError({
           show: true,
@@ -101,6 +101,30 @@ while x < 5: {
           conditions to see how the <code>result</code> changes as{' '}
           <code>x</code> increments.
         </p>
+        <h3 className="font-bold mt-4 text-md md:text-lg">
+          Or Try This
+        </h3>
+        <p className="text-sm md:text-base">
+          This code snippet will calculate the nth fibonacci number, change n to acheive different results
+        </p>
+        <pre className="bg-gray-100 p-2 rounded text-sm md:text-base">
+          {`# This program computes and returns the n'th Fibonacci number.
+n = 6;
+f0 = 0;
+f1 = 1;
+i = 0;
+while True:  {
+    fi = f0 + f1;
+    f0 = f1;
+    f1 = fi;
+    i = i + 1;
+    if i >= n:  {
+        break;
+    }
+}
+f = f0;
+`}
+        </pre>
 
         <h3 className="font-bold mt-4 text-md md:text-lg">Tips for Success:</h3>
         <ul className="list-disc list-inside text-sm md:text-base">
@@ -117,7 +141,7 @@ while x < 5: {
           </li>
           <li>
             Remember all variable declared will automatically be printed so you
-            can see the output immediately
+            can see the output immediatley
           </li>
         </ul>
 
@@ -180,30 +204,6 @@ while x < 5: {
           <span className="ml-2">Run</span>
         </button>
       </div>
-
-      <div className="relative col-span-1 md:col-span-2 row-span-1 border-t-4 border-blue-200 p-4">
-        <h3 className="font-bold mt-4 text-md md:text-lg">
-          Or try this code which calculates the nth Fibonacci number:
-        </h3>
-        <pre className="bg-gray-100 p-2 rounded text-sm md:text-base">
-          {`# This program computes and returns the n'th Fibonacci number.
-n = 6;
-f0 = 0;
-f1 = 1;
-i = 0;
-while True:  {
-    fi = f0 + f1;
-    f0 = f1;
-    f1 = fi;
-    i = i + 1;
-    if i >= n:  {
-        break;
-    }
-}
-f = f0;`}
-        </pre>
-      </div>
     </div>
   )
 }
-
