@@ -69,7 +69,7 @@ app.post('/compile', (req, res) => {
         return;
       }
 
-      exec(compiledFilePath, { timeout }, (err, stdout, stderr) => {
+      exec('./parse', { timeout }, (err, stdout, stderr) => {
         if (err) {
           console.log(err.signal)
           if ( err.signal === 'SIGTERM') {
