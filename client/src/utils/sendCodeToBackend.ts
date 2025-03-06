@@ -5,9 +5,11 @@ type codeResponse = {
   error?: string
 }
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL
+
 export async function sendCodeToBackend(code: string) {
   try {
-    const response = await fetch('https://api.braced.trentonfisher.xyz/compile', {
+    const response = await fetch(`${SERVER_URL}/compile`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -23,6 +25,9 @@ export async function sendCodeToBackend(code: string) {
     return data
   } catch (error) {
     console.error('Error sending code to backend:', error)
-    throw error
+    return {
+      success: false,
+      error: 'Error sending code to backend',
+    }
   }
 }

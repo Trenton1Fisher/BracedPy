@@ -1,7 +1,7 @@
 # Variables
 FLEX = flex
 CC = gcc
-OUTPUT = a.out
+OUTPUT = /app/compiler/a.out
 SRC = array.c
 OBJ = array.o
 

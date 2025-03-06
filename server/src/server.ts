@@ -1,19 +1,25 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const SERVER_PORT = process.env.SERVER_PORT;
+const ALLOWED_HOSTS = process.env.ALLOWED_HOSTS;
 
 const app = express();
 app.use(express.json());
 
 app.use(
   cors({
-    origin: 'https://braced.trentonfisher.xyz',
+    origin: ALLOWED_HOSTS,
   })
 );
 
-const port = 9001;
+const port = SERVER_PORT;
 
 app.post('/compile', (req, res) => {
   const { code } = req.body;
@@ -27,12 +33,12 @@ app.post('/compile', (req, res) => {
   }
 
   const inputFilePath = path.join('./', 'input.py');
-  const outputFilePath = path.join('./', 'output.c');
-  const compiledFilePath = './parse';
+  const outputFilePath = path.join('./', 'output.c'); 
+  const compiledFilePath = path.join('./', 'parse');   
 
   fs.writeFileSync(inputFilePath, code, 'utf8');
-
-  const interpreterCommand = `../compiler/a.out < ${inputFilePath} > ${outputFilePath}`;
+  const cFilePath = path.join(__dirname, '../compiler/a.out');
+  const interpreterCommand = `${cFilePath} < ${inputFilePath} > ${outputFilePath}`;
   exec(interpreterCommand, (err, stdout, stderr) => {
     if (err) {
       res.status(500).json({
@@ -40,6 +46,7 @@ app.post('/compile', (req, res) => {
         message: 'Error executing the compiler',
         error: stderr || err.message,
       });
+      console.log(err)
       return;
     }
 
@@ -84,11 +91,11 @@ app.post('/compile', (req, res) => {
           success: true,
           output: stdout,
         });
-
         fs.unlinkSync(inputFilePath);
         fs.unlinkSync(outputFilePath);
         fs.unlinkSync(compiledFilePath);
       });
+      
     });
   });
 });

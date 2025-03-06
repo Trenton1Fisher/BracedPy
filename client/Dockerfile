@@ -1,4 +1,4 @@
-FROM node:18-alpine AS build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5173
+ENV SERVER_URL=${SERVER_URL}
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "build"]
