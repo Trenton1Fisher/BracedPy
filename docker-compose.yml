@@ -1,7 +1,7 @@
 services:
   bracedpy_server:
     container_name: bracedpy_server
-    build: 
+    build:
       context: ./server
       dockerfile: Dockerfile
     ports:
@@ -11,17 +11,16 @@ services:
       ALLOWED_HOSTS: '${ALLOWED_HOSTS}'
     volumes:
       - ./compiler:/app/compiler
-  
+
   bracedpy_client:
     container_name: bracedpy_client
-    build: 
+    build:
       context: ./client
       dockerfile: Dockerfile
     ports:
       - '${NGINX_PORT}:${NGINX_PORT}'
     environment:
-      NGINX_PORT: '${NGINX_PORT}'
-      SERVER_URL: '${VITE_SERVER_URL}'
+      VITE_SERVER_URL: '${VITE_SERVER_URL}'
 
   bracedpy_compiler:
     container_name: bracedpy_compiler

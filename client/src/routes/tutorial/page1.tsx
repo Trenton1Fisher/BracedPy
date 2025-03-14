@@ -1,9 +1,9 @@
-import { Play } from 'lucide-react'
 import { useState } from 'react'
 import Editor from '@monaco-editor/react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { sendCodeToBackend } from '../../utils/sendCodeToBackend'
+import CompileButton from '../../components/ui/compileButton'
 
 export default function TutorialPage1() {
   const [code, setCode] = useState('')
@@ -15,47 +15,50 @@ export default function TutorialPage1() {
     message: '',
   })
 
-  async function compileCode(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
-    setLoading(true);
-  
-    setError(false);
-    setCompilerError({ show: false, message: '' });
-  
+  async function compileCode(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault()
+    setLoading(true)
+
+    setError(false)
+    setCompilerError({ show: false, message: '' })
+
     try {
-      const data = await sendCodeToBackend(code);
-      if(!data){
+      const data = await sendCodeToBackend(code)
+      if (!data) {
         setCompilerError({
           show: true,
           message: 'No output found, Please Try again and double check syntax',
         })
         return
       }
-  
+
       if (!data.success) {
         if (data.error) {
           setCompilerError({
             show: true,
             message: data.error,
-          });
-          return;
+          })
+          return
         }
 
-        return;
+        return
       }
       if (!data.output) {
         setCompilerError({
           show: true,
-          message: 'No Output Found Please try again, Please double check syntax errors',
-        });
-        return;
+          message:
+            'No Output Found Please try again, Please double check syntax errors',
+        })
+        return
       }
-  
-      setOutput(data.output); 
+
+      setOutput(data.output)
     } catch (error) {
-      console.error('Compilation error:', error);
+      console.error('Compilation error:', error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
@@ -195,14 +198,7 @@ isClassActive = True;   `}
             </pre>
           )}
         </div>
-        <button
-          onClick={e => compileCode(e)}
-          disabled={loading}
-          className="absolute flex items-center justify-center top-5 right-5 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-        >
-          <Play />
-          <span className="ml-2">Run</span>
-        </button>
+        <CompileButton onClickFunction={compileCode} />
       </div>
     </div>
   )

@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-ENV SERVER_URL=${SERVER_URL}
+ENV VITE_SERVER_URL=${VITE_SERVER_URL}
 
 CMD ["npm", "run", "build"]
